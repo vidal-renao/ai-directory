@@ -9,19 +9,15 @@ import {
   X,
   ArrowRight,
   Calendar,
-  Clock,
   ExternalLink,
   Bot,
   User,
   Sparkles,
-  TrendingUp,
-  AlertCircle,
+  Lightbulb,
 } from "lucide-react";
 import {
   companiesData,
   type CompanyInfo,
-  type CompanyNews,
-  type CompanyEvent,
 } from "@/data/companies";
 import { modelsData } from "@/data/models";
 import { agentsData } from "@/data/agents";
@@ -34,23 +30,61 @@ interface Message {
   type: "user" | "assistant";
   content: string;
   results?: SearchResult[];
+  suggestions?: string[];
 }
 
 interface SearchResult {
-  type:
-    | "company"
-    | "model"
-    | "agent"
-    | "mcp"
-    | "skill"
-    | "news"
-    | "event";
+  type: "company" | "model" | "agent" | "mcp" | "skill" | "news" | "event";
   title: string;
   description: string;
   href: string;
+  externalUrl?: string;
   tags?: string[];
   date?: string;
   badge?: string;
+}
+
+const allSearchTerms = [
+  ...companiesData.map((c) => c.name),
+  ...companiesData.flatMap((c) => c.tags),
+  ...modelsData.map((m) => m.name),
+  ...modelsData.map((m) => m.creator),
+  ...agentsData.map((a) => a.name),
+  ...agentsData.map((a) => a.creator),
+  ...mcpData.map((m) => m.name),
+  ...mcpData.map((m) => m.creator),
+  ...skillsData.map((s) => s.name),
+  ...newsData.map((n) => n.title),
+  "anthropic",
+  "claude",
+  "gpt",
+  "openai",
+  "gemini",
+  "google",
+  "meta",
+  "llama",
+  "mistral",
+  "deepseek",
+  "mcp",
+  "agentes",
+  "benchmarks",
+  "modelos",
+  "skills",
+];
+
+function findSimilarTerms(query: string): string[] {
+  const q = query.toLowerCase();
+  return allSearchTerms
+    .filter((term) => {
+      const t = term.toLowerCase();
+      return (
+        t.includes(q) ||
+        q.includes(t) ||
+        t.split(" ").some((word) => q.includes(word)) ||
+        q.split(" ").some((word) => t.includes(word))
+      );
+    })
+    .slice(0, 5);
 }
 
 function searchQuery(query: string): SearchResult[] {
@@ -59,7 +93,6 @@ function searchQuery(query: string): SearchResult[] {
 
   if (q.length < 2) return results;
 
-  // Search companies
   companiesData.forEach((company) => {
     if (
       company.name.toLowerCase().includes(q) ||
@@ -70,11 +103,11 @@ function searchQuery(query: string): SearchResult[] {
         type: "company",
         title: company.name,
         description: company.description,
-        href: "#",
+        href: `/companies/${company.slug}`,
+        externalUrl: company.website,
         tags: [company.founded, company.valuation || ""].filter(Boolean),
       });
 
-      // Add company events
       company.upcomingEvents.forEach((event) => {
         const eventEnd = event.endDate
           ? ` hasta el ${new Date(event.endDate).toLocaleDateString("es-ES", { day: "numeric", month: "long" })}`
@@ -83,38 +116,35 @@ function searchQuery(query: string): SearchResult[] {
           type: "event",
           title: `${event.name} — ${company.name}`,
           description: `${event.description}${eventEnd}`,
-          href: "#",
+          href: `/companies/${company.slug}#events`,
           date: event.date,
           badge: event.type === "release" ? "Lanzamiento" : "Evento",
         });
       });
 
-      // Add company news
       company.recentNews.forEach((news) => {
         results.push({
           type: "news",
           title: news.title,
           description: news.summary,
-          href: "#",
+          href: `/companies/${company.slug}#news`,
           date: news.date,
           badge: news.source,
         });
       });
 
-      // Add next steps
       if (company.nextSteps.length > 0) {
         results.push({
           type: "company",
           title: `Próximos pasos de ${company.name}`,
           description: company.nextSteps.slice(0, 3).join(" • "),
-          href: "#",
+          href: `/companies/${company.slug}#roadmap`,
           badge: "Roadmap",
         });
       }
     }
   });
 
-  // Search models
   modelsData.forEach((model) => {
     if (
       model.name.toLowerCase().includes(q) ||
@@ -126,13 +156,13 @@ function searchQuery(query: string): SearchResult[] {
         title: model.name,
         description: model.description,
         href: `/models/${model.slug}`,
+        externalUrl: model.url,
         tags: model.metrics.map((m) => `${m.label}: ${m.value}`),
         badge: model.license,
       });
     }
   });
 
-  // Search agents
   agentsData.forEach((agent) => {
     if (
       agent.name.toLowerCase().includes(q) ||
@@ -144,13 +174,13 @@ function searchQuery(query: string): SearchResult[] {
         title: agent.name,
         description: agent.description,
         href: `/agents/${agent.slug}`,
+        externalUrl: agent.url,
         tags: agent.metrics.map((m) => `${m.label}: ${m.value}`),
         badge: agent.license,
       });
     }
   });
 
-  // Search MCPs
   mcpData.forEach((mcp) => {
     if (
       mcp.name.toLowerCase().includes(q) ||
@@ -162,13 +192,13 @@ function searchQuery(query: string): SearchResult[] {
         title: mcp.name,
         description: mcp.description,
         href: `/mcp/${mcp.slug}`,
+        externalUrl: mcp.url,
         tags: mcp.metrics.map((m) => `${m.label}: ${m.value}`),
         badge: mcp.license,
       });
     }
   });
 
-  // Search skills
   skillsData.forEach((skill) => {
     if (
       skill.name.toLowerCase().includes(q) ||
@@ -185,7 +215,6 @@ function searchQuery(query: string): SearchResult[] {
     }
   });
 
-  // Search news
   newsData.forEach((article) => {
     if (
       article.title.toLowerCase().includes(q) ||
@@ -206,14 +235,36 @@ function searchQuery(query: string): SearchResult[] {
   return results.slice(0, 10);
 }
 
-function generateResponse(query: string, results: SearchResult[]): string {
+function generateResponse(
+  query: string,
+  results: SearchResult[]
+): { text: string; suggestions: string[] } {
   const q = query.toLowerCase();
   const companies = results.filter((r) => r.type === "company");
   const events = results.filter((r) => r.type === "event");
   const models = results.filter((r) => r.type === "model");
 
   if (results.length === 0) {
-    return `No encontré resultados para "${query}". Prueba con: Anthropic, Claude, GPT, Gemini, Llama, MCP, agentes, benchmarks...`;
+    const similar = findSimilarTerms(query);
+    let text = `No encontré resultados exactos para "${query}".`;
+    if (similar.length > 0) {
+      text += `\n\n¿Quizás buscabas algo de esto?`;
+    } else {
+      text += `\n\nPrueba con nombres como:`;
+    }
+    return {
+      text,
+      suggestions: similar.length > 0 ? similar : [
+        "Anthropic",
+        "Claude",
+        "GPT-5",
+        "Gemini",
+        "Llama 4",
+        "MCP",
+        "LangGraph",
+        "benchmarks",
+      ],
+    };
   }
 
   let response = `Encontré ${results.length} resultado${results.length > 1 ? "s" : ""} para "${query}".`;
@@ -226,7 +277,7 @@ function generateResponse(query: string, results: SearchResult[]): string {
     if (companyData) {
       response += `\n\n**${companyData.name}**: ${companyData.description}`;
       if (companyData.valuation) {
-        response += ` Valoración: ${companyData.valuation}.`;
+        response += `\nValoración: ${companyData.valuation} • CEO: ${companyData.ceo}`;
       }
       if (companyData.recentNews.length > 0) {
         response += `\n\nNoticias recientes:`;
@@ -241,7 +292,22 @@ function generateResponse(query: string, results: SearchResult[]): string {
             day: "numeric",
             month: "long",
           });
-          response += `\n• ${event.name}: ${event.description} (${eventDate})`;
+          const eventEnd = event.endDate
+            ? ` hasta el ${new Date(event.endDate).toLocaleDateString("es-ES", { day: "numeric", month: "long" })}`
+            : "";
+          response += `\n• ${event.name}: ${event.description}${eventEnd} (${eventDate})`;
+        });
+      }
+      if (companyData.products.length > 0) {
+        response += `\n\nProductos:`;
+        companyData.products.slice(0, 3).forEach((p) => {
+          response += `\n• ${p.name} — ${p.status}`;
+        });
+      }
+      if (companyData.nextSteps.length > 0) {
+        response += `\n\nRoadmap:`;
+        companyData.nextSteps.slice(0, 2).forEach((step) => {
+          response += `\n• ${step}`;
         });
       }
     }
@@ -261,7 +327,11 @@ function generateResponse(query: string, results: SearchResult[]): string {
     });
   }
 
-  return response;
+  const suggestions = companies.length > 0
+    ? [companies[0].title, "Claude", "MCP", "benchmarks"]
+    : ["Anthropic", "OpenAI", "Claude", "GPT-5"];
+
+  return { text: response, suggestions };
 }
 
 const typeIcons: Record<string, React.ReactNode> = {
@@ -296,30 +366,45 @@ export function AIChatSearch() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setIsOpen(true);
+      }
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleSearch = async (searchText?: string) => {
+    const q = searchText || query;
+    if (!q.trim()) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       type: "user",
-      content: query,
+      content: q,
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setQuery("");
     setIsSearching(true);
 
-    // Simulate AI processing delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 400));
 
-    const results = searchQuery(query);
-    const responseText = generateResponse(query, results);
+    const results = searchQuery(q);
+    const { text, suggestions } = generateResponse(q, results);
 
     const assistantMessage: Message = {
       id: (Date.now() + 1).toString(),
       type: "assistant",
-      content: responseText,
-      results,
+      content: text,
+      results: results,
+      suggestions,
     };
 
     setMessages((prev) => [...prev, assistantMessage]);
@@ -333,18 +418,19 @@ export function AIChatSearch() {
     }
   };
 
-  const suggestions = [
+  const quickSuggestions = [
     "Anthropic",
     "Claude",
     "GPT-5",
-    "MCP",
+    "Gemini",
     "Llama 4",
+    "MCP",
+    "LangGraph",
     "benchmarks",
   ];
 
   return (
     <>
-      {/* Trigger button */}
       <button
         onClick={() => setIsOpen(true)}
         className="w-full rounded-xl border border-border bg-surface py-3.5 px-4 text-sm text-text-muted transition-all duration-200 hover:border-models/30 hover:bg-surface-hover focus:outline-none focus:ring-2 focus:ring-models/20 text-left flex items-center gap-3"
@@ -356,7 +442,6 @@ export function AIChatSearch() {
         </kbd>
       </button>
 
-      {/* Modal */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -365,20 +450,17 @@ export function AIChatSearch() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh] px-4"
           >
-            {/* Backdrop */}
             <div
               className="absolute inset-0 bg-background/80 backdrop-blur-sm"
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Modal content */}
             <motion.div
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               className="relative w-full max-w-2xl rounded-2xl border border-border bg-background shadow-2xl overflow-hidden"
             >
-              {/* Header */}
               <div className="flex items-center justify-between border-b border-border px-4 py-3">
                 <div className="flex items-center gap-2">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-models to-mcp">
@@ -401,7 +483,6 @@ export function AIChatSearch() {
                 </button>
               </div>
 
-              {/* Messages */}
               <div className="h-[50vh] overflow-y-auto p-4 space-y-4">
                 {messages.length === 0 && (
                   <div className="flex flex-col items-center justify-center h-full text-center">
@@ -414,40 +495,10 @@ export function AIChatSearch() {
                       benchmarks o cualquier cosa del ecosistema IA.
                     </p>
                     <div className="flex flex-wrap justify-center gap-2">
-                      {suggestions.map((s) => (
+                      {quickSuggestions.map((s) => (
                         <button
                           key={s}
-                          onClick={() => {
-                            setQuery(s);
-                            setTimeout(() => {
-                              setQuery(s);
-                              const userMessage: Message = {
-                                id: Date.now().toString(),
-                                type: "user",
-                                content: s,
-                              };
-                              setMessages((prev) => [...prev, userMessage]);
-                              setIsSearching(true);
-                              setTimeout(() => {
-                                const results = searchQuery(s);
-                                const responseText = generateResponse(
-                                  s,
-                                  results
-                                );
-                                const assistantMessage: Message = {
-                                  id: (Date.now() + 1).toString(),
-                                  type: "assistant",
-                                  content: responseText,
-                                  results,
-                                };
-                                setMessages((prev) => [
-                                  ...prev,
-                                  assistantMessage,
-                                ]);
-                                setIsSearching(false);
-                              }, 500);
-                            }, 100);
-                          }}
+                          onClick={() => handleSearch(s)}
                           className="rounded-lg bg-surface px-3 py-1.5 text-xs text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-colors border border-border"
                         >
                           {s}
@@ -470,7 +521,7 @@ export function AIChatSearch() {
                       </div>
                     )}
                     <div
-                      className={`max-w-[80%] rounded-xl px-4 py-3 ${
+                      className={`max-w-[85%] rounded-xl px-4 py-3 ${
                         message.type === "user"
                           ? "bg-models text-white"
                           : "bg-surface border border-border"
@@ -480,15 +531,27 @@ export function AIChatSearch() {
                         {message.content}
                       </p>
 
-                      {/* Results */}
+                      {message.suggestions && message.suggestions.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-1.5">
+                          {message.suggestions.map((s) => (
+                            <button
+                              key={s}
+                              onClick={() => handleSearch(s)}
+                              className="flex items-center gap-1 rounded-lg bg-background/50 px-2.5 py-1 text-[11px] text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-colors border border-border/50"
+                            >
+                              <Lightbulb className="h-3 w-3" />
+                              {s}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
                       {message.results && message.results.length > 0 && (
                         <div className="mt-4 space-y-2">
                           {message.results.map((result, idx) => (
-                            <Link
+                            <div
                               key={idx}
-                              href={result.href}
-                              onClick={() => setIsOpen(false)}
-                              className="block rounded-lg bg-background/50 p-3 transition-colors hover:bg-surface-hover border border-border/50"
+                              className="rounded-lg bg-background/50 p-3 border border-border/50"
                             >
                               <div className="flex items-start gap-2">
                                 {typeIcons[result.type]}
@@ -523,9 +586,7 @@ export function AIChatSearch() {
                                   {result.date && (
                                     <div className="mt-1.5 flex items-center gap-1 text-[10px] text-text-muted">
                                       <Calendar className="h-2.5 w-2.5" />
-                                      {new Date(
-                                        result.date
-                                      ).toLocaleDateString("es-ES", {
+                                      {new Date(result.date).toLocaleDateString("es-ES", {
                                         day: "numeric",
                                         month: "long",
                                         year: "numeric",
@@ -533,9 +594,27 @@ export function AIChatSearch() {
                                     </div>
                                   )}
                                 </div>
-                                <ArrowRight className="h-3 w-3 shrink-0 text-text-muted mt-1" />
                               </div>
-                            </Link>
+                              <div className="mt-2 flex items-center gap-2">
+                                <Link
+                                  href={result.href}
+                                  onClick={() => setIsOpen(false)}
+                                  className="flex items-center gap-1 text-[10px] font-medium text-models hover:underline"
+                                >
+                                  Ver más detalles <ArrowRight className="h-2.5 w-2.5" />
+                                </Link>
+                                {result.externalUrl && (
+                                  <a
+                                    href={result.externalUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1 text-[10px] font-medium text-text-muted hover:text-text-primary transition-colors"
+                                  >
+                                    Página oficial <ExternalLink className="h-2.5 w-2.5" />
+                                  </a>
+                                )}
+                              </div>
+                            </div>
                           ))}
                         </div>
                       )}
@@ -556,8 +635,8 @@ export function AIChatSearch() {
                     <div className="rounded-xl bg-surface border border-border px-4 py-3">
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-models animate-pulse" />
-                        <div className="h-2 w-2 rounded-full bg-models animate-pulse delay-100" />
-                        <div className="h-2 w-2 rounded-full bg-models animate-pulse delay-200" />
+                        <div className="h-2 w-2 rounded-full bg-models animate-pulse [animation-delay:150ms]" />
+                        <div className="h-2 w-2 rounded-full bg-models animate-pulse [animation-delay:300ms]" />
                       </div>
                     </div>
                   </div>
@@ -566,7 +645,6 @@ export function AIChatSearch() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input */}
               <div className="border-t border-border p-4">
                 <div className="flex items-center gap-2">
                   <input
@@ -580,7 +658,7 @@ export function AIChatSearch() {
                     autoFocus
                   />
                   <button
-                    onClick={handleSearch}
+                    onClick={() => handleSearch()}
                     disabled={!query.trim() || isSearching}
                     className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-models to-mcp text-white transition-all duration-200 hover:shadow-lg hover:shadow-models/25 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
