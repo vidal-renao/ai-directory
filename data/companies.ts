@@ -55,6 +55,8 @@ export const companiesData: CompanyInfo[] = [
     tags: [
       "seguridad",
       "claude",
+      "fable",
+      "mythos",
       "modelos",
       "enterprise",
       "mcp",
@@ -65,10 +67,24 @@ export const companiesData: CompanyInfo[] = [
     ],
     recentNews: [
       {
-        title: "Claude Sonnet 4.6 con razonamiento profundo",
-        date: "2026-06-28",
+        title: "Claude Fable 5: modelo más capaz de Anthropic",
+        date: "2026-06-09",
         summary:
-          "Nueva versión con modo extended thinking, doble de rendimiento en código (SWE-bench 72%) y contexto de 200K tokens.",
+          "Primer modelo Mythos-class disponible al público. Contexto de 1M tokens, 128K output, $10/1M input. Incluye safety classifiers para cybersecurity.",
+        source: "Anthropic",
+      },
+      {
+        title: "Claude Sonnet 5 lanzado",
+        date: "2026-06-30",
+        summary:
+          "Nueva versión de Sonnet con capacidades mejoradas de razonamiento y código.",
+        source: "Anthropic",
+      },
+      {
+        title: "Claude Fable 5 re-desplegado globalmente",
+        date: "2026-07-01",
+        summary:
+          "Acceso global restaurado con framework de jailbreak severity propuesto junto a Amazon, Microsoft y Google.",
         source: "Anthropic",
       },
       {
@@ -78,21 +94,14 @@ export const companiesData: CompanyInfo[] = [
           "El Model Context Protocol crece exponencialmente con empresas como Stripe, Notion y Figma adoptándolo.",
         source: "Industria",
       },
-      {
-        title: "Anthropic cierta ronda de $5B",
-        date: "2026-05-15",
-        summary:
-          "Valoración de $60B+. Inversores incluyen Google, Spark Capital y Salesforce Ventures.",
-        source: "TechCrunch",
-      },
     ],
     upcomingEvents: [
       {
-        name: "Claude 5 Beta Access",
+        name: "Claude Fable 5 Beta Access",
         date: "2026-07-05",
         endDate: "2026-07-07",
         description:
-          "Acceso beta limitado a Claude 5, el próximo modelo fundacional con capacidades multimodales avanzadas y razonamiento chain-of-thought nativo.",
+          "Acceso beta a Claude Fable 5, el modelo más capaz de Anthropic para razonamiento complejo y trabajo agentic de largo plazo.",
         type: "release",
       },
       {
@@ -105,23 +114,30 @@ export const companiesData: CompanyInfo[] = [
     ],
     products: [
       {
+        name: "Claude Fable 5",
+        description:
+          "Modelo más capaz de Anthropic. 1M tokens contexto, 128K output, safety classifiers para cybersecurity.",
+        status: "available",
+        launchDate: "2026-06-09",
+      },
+      {
+        name: "Claude Mythos 5",
+        description:
+          "Misma capacidad que Fable 5 sin safety classifiers. Disponible solo vía Project Glasswing.",
+        status: "beta",
+      },
+      {
+        name: "Claude Sonnet 5",
+        description:
+          "Modelo de razonamiento avanzado con capacidades mejoradas de código.",
+        status: "available",
+        launchDate: "2026-06-30",
+      },
+      {
         name: "Claude Sonnet 4.6",
         description:
           "Modelo de razonamiento avanzado con 200K tokens de contexto.",
         status: "available",
-      },
-      {
-        name: "Claude Opus 4",
-        description:
-          "Modelo de alta gama para tareas complejas de investigación.",
-        status: "available",
-      },
-      {
-        name: "Claude 5",
-        description:
-          "Próximo modelo fundacional con razonamiento chain-of-thought nativo.",
-        status: "beta",
-        launchDate: "2026-07-05",
       },
       {
         name: "MCP (Model Context Protocol)",
@@ -131,11 +147,11 @@ export const companiesData: CompanyInfo[] = [
       },
     ],
     nextSteps: [
-      "Lanzamiento de Claude 5 en Q3 2026",
+      "Claude Fable 5: acceso global restaurado con framework de seguridad",
+      "Claude Sonnet 5 en producción estable",
       "Expansión de MCP con 100+ integraciones nuevas",
-      "Nuevo enterprise tier con SLA 99.99%",
-      "API con soporte para agentes autónomos multi-paso",
-      "Integración nativa con herramientas de desarrollo",
+      "Enterprise tier con SLA 99.99%",
+      "Agentes autónomos multi-paso con task budgets",
     ],
   },
   {
@@ -457,6 +473,73 @@ export const companiesData: CompanyInfo[] = [
       "Expansión internacional",
       "Nuevos modelos para casos de uso específicos",
       "Mejora en estabilidad para producción",
+    ],
+  },
+  {
+    id: "nvidia",
+    name: "NVIDIA",
+    slug: "nvidia",
+    description:
+      "NVIDIA es líder en hardware GPU para IA. Sus modelos Nemotron y frameworks como NeMo son estándar en la industria.",
+    founded: "1993",
+    headquarters: "Santa Clara, CA",
+    ceo: "Jensen Huang",
+    valuation: "$3T+",
+    employees: "~30,000",
+    website: "https://nvidia.com",
+    tags: [
+      "gpu",
+      "hardware",
+      "nemotron",
+      "nemo",
+      "acceleradores",
+      "ia",
+      "artificial",
+      "intelligence",
+    ],
+    recentNews: [
+      {
+        title: "NVIDIA lanza Nemotron-Labs-TwoTower",
+        date: "2026-07-01",
+        summary:
+          "Modelo open-weight de difusión con 2.42x throughput vs AR. Retiene 98.7% de calidad AR.",
+        source: "NVIDIA",
+      },
+    ],
+    upcomingEvents: [
+      {
+        name: "GTC 2026",
+        date: "2026-09-15",
+        description:
+          "GPU Technology Conference con novedades en hardware y software para IA.",
+        type: "conference",
+      },
+    ],
+    products: [
+      {
+        name: "Nemotron-Labs-TwoTower",
+        description:
+          "Modelo de difusión open-weight con 2.42x throughput.",
+        status: "available",
+      },
+      {
+        name: "NeMo Framework",
+        description:
+          "Framework para entrenar y desplegar modelos de IA personalizados.",
+        status: "available",
+      },
+      {
+        name: "H100 GPU",
+        description:
+          "GPU flagship para entrenamiento de modelos de IA a escala.",
+        status: "available",
+      },
+    ],
+    nextSteps: [
+      "Blackwell Ultra GPU para entrenamiento next-gen",
+      "Expansión de modelos Nemotron open-weight",
+      "Nuevos frameworks para agentes IA",
+      "Partnerships con hyperscalers",
     ],
   },
 ];

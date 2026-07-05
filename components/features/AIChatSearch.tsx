@@ -47,6 +47,7 @@ interface SearchResult {
 const allSearchTerms = [
   ...companiesData.map((c) => c.name),
   ...companiesData.flatMap((c) => c.tags),
+  ...companiesData.flatMap((c) => c.products.map((p) => p.name)),
   ...modelsData.map((m) => m.name),
   ...modelsData.map((m) => m.creator),
   ...agentsData.map((a) => a.name),
@@ -57,19 +58,29 @@ const allSearchTerms = [
   ...newsData.map((n) => n.title),
   "anthropic",
   "claude",
+  "claude fable 5",
+  "fable 5",
+  "mythos",
+  "claude mythos 5",
+  "sonnet 5",
   "gpt",
+  "gpt-5",
   "openai",
   "gemini",
   "google",
   "meta",
   "llama",
+  "llama 4",
   "mistral",
   "deepseek",
+  "nvidia",
+  "nemotron",
   "mcp",
   "agentes",
   "benchmarks",
   "modelos",
   "skills",
+  "leanstral",
 ];
 
 function findSimilarTerms(query: string): string[] {
@@ -419,11 +430,11 @@ export function AIChatSearch() {
   };
 
   const quickSuggestions = [
-    "Anthropic",
-    "Claude",
+    "Claude Fable 5",
     "GPT-5",
-    "Gemini",
+    "Gemini 2.5",
     "Llama 4",
+    "Nemotron",
     "MCP",
     "LangGraph",
     "benchmarks",
