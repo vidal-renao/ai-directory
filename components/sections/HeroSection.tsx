@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -8,12 +8,10 @@ import {
   Cpu,
   Network,
   Wrench,
-  Search,
   Sparkles,
   TrendingUp,
-  Users,
-  Zap,
 } from "lucide-react";
+import { AIChatSearch } from "@/components/features/AIChatSearch";
 
 const categories = [
   {
@@ -60,8 +58,6 @@ const trustedBy = [
 ];
 
 export function HeroSection() {
-  const [searchQuery, setSearchQuery] = useState("");
-
   return (
     <section className="relative mb-16 lg:mb-24">
       {/* Background gradient */}
@@ -98,18 +94,9 @@ export function HeroSection() {
           adopción en producción.
         </p>
 
-        {/* Search bar */}
+        {/* AI Search bar */}
         <div className="mx-auto mb-8 max-w-xl">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-text-muted" />
-            <input
-              type="text"
-              placeholder="Buscar modelos, agentes, MCPs..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-border bg-surface py-3.5 pl-12 pr-4 text-sm text-text-primary placeholder-text-muted transition-all duration-200 focus:border-models/50 focus:outline-none focus:ring-2 focus:ring-models/20 focus:bg-surface-hover"
-            />
-          </div>
+          <AIChatSearch />
         </div>
 
         {/* CTA buttons */}
