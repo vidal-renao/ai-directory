@@ -130,7 +130,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
           <p className="text-[10px] text-text-muted">
-            © 2026 AI Directory. Todos los derechos reservados.
+            © 2026 Vidal-Ecosystem. Todos los derechos reservados.
           </p>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5 text-[10px] text-text-muted">
