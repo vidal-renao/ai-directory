@@ -37,6 +37,30 @@
     background: rgba(129, 140, 248, 0.3);
     color: #f8fafc;
   }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
 }
 
 @layer utilities {
@@ -84,5 +108,16 @@
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.08),
       0 16px 48px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Score bar animation */
+  .score-bar-fill {
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Focus visible for accessibility */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--color-models);
+    outline-offset: 2px;
   }
 }
