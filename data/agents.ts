@@ -2,6 +2,7 @@ import type { DirectoryItem } from "@/lib/types";
 
 export const agentsData: DirectoryItem[] = [
   {
+    slug: "langgraph",
     name: "LangGraph",
     creator: "LangChain",
     license: "Open Source",
@@ -16,6 +17,7 @@ export const agentsData: DirectoryItem[] = [
     url: "https://langchain.com",
   },
   {
+    slug: "autogen",
     name: "AutoGen",
     creator: "Microsoft",
     license: "Open Source",
@@ -30,6 +32,7 @@ export const agentsData: DirectoryItem[] = [
     url: "https://microsoft.github.io/autogen",
   },
   {
+    slug: "crewai",
     name: "CrewAI",
     creator: "CrewAI Inc",
     license: "Open Source",
@@ -44,6 +47,7 @@ export const agentsData: DirectoryItem[] = [
     url: "https://crewai.com",
   },
   {
+    slug: "openai-agents-sdk",
     name: "OpenAI Agents SDK",
     creator: "OpenAI",
     license: "Propietario",
@@ -58,6 +62,7 @@ export const agentsData: DirectoryItem[] = [
     url: "https://github.com/openai/openai-agents-python",
   },
   {
+    slug: "mastra",
     name: "Mastra",
     creator: "Mastra AI",
     license: "Open Source",
@@ -72,6 +77,7 @@ export const agentsData: DirectoryItem[] = [
     url: "https://mastra.ai",
   },
   {
+    slug: "semantic-kernel",
     name: "Semantic Kernel",
     creator: "Microsoft",
     license: "Open Source",
@@ -86,6 +92,7 @@ export const agentsData: DirectoryItem[] = [
     url: "https://learn.microsoft.com/semantic-kernel",
   },
   {
+    slug: "agno",
     name: "Agno (ex-Phidata)",
     creator: "Agno",
     license: "Open Source",
@@ -100,6 +107,7 @@ export const agentsData: DirectoryItem[] = [
     url: "https://github.com/agno-agi/agno",
   },
   {
+    slug: "google-adk",
     name: "Google ADK",
     creator: "Google",
     license: "Open Source",

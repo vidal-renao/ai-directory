@@ -2,6 +2,7 @@ import type { DirectoryItem } from "@/lib/types";
 
 export const mcpData: DirectoryItem[] = [
   {
+    slug: "supabase-mcp",
     name: "Supabase MCP Server",
     creator: "Supabase",
     license: "Open Source",
@@ -16,6 +17,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://github.com/supabase/mcp",
   },
   {
+    slug: "composio",
     name: "Composio",
     creator: "Composio",
     license: "Freemium",
@@ -30,6 +32,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://composio.dev",
   },
   {
+    slug: "github-mcp",
     name: "GitHub MCP Server",
     creator: "GitHub/Anthropic",
     license: "Open Source",
@@ -44,6 +47,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://github.com/github/github-mcp-server",
   },
   {
+    slug: "vercel-mcp",
     name: "Vercel MCP Server",
     creator: "Vercel",
     license: "Open Source",
@@ -58,6 +62,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://github.com/vercel/mcp",
   },
   {
+    slug: "filesystem-mcp",
     name: "Filesystem MCP",
     creator: "Anthropic",
     license: "Open Source",
@@ -72,6 +77,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://github.com/modelcontextprotocol/servers",
   },
   {
+    slug: "postgresql-mcp",
     name: "PostgreSQL MCP",
     creator: "Community",
     license: "Open Source",
@@ -86,6 +92,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://github.com/modelcontextprotocol/servers",
   },
   {
+    slug: "slack-mcp",
     name: "Slack MCP Server",
     creator: "Slack/Community",
     license: "Open Source",
@@ -100,6 +107,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://github.com/modelcontextprotocol/servers",
   },
   {
+    slug: "browserbase-mcp",
     name: "Browserbase MCP",
     creator: "Browserbase",
     license: "Freemium",
@@ -114,6 +122,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://browserbase.com",
   },
   {
+    slug: "brave-search-mcp",
     name: "Brave Search MCP",
     creator: "Brave",
     license: "Open Source",
@@ -128,6 +137,7 @@ export const mcpData: DirectoryItem[] = [
     url: "https://brave.com/search/api",
   },
   {
+    slug: "memory-mcp",
     name: "Memory MCP Server",
     creator: "Anthropic",
     license: "Open Source",

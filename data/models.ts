@@ -2,6 +2,7 @@ import type { DirectoryItem } from "@/lib/types";
 
 export const modelsData: DirectoryItem[] = [
   {
+    slug: "gpt-4o",
     name: "GPT-4o",
     creator: "OpenAI",
     license: "Propietario",
@@ -16,6 +17,7 @@ export const modelsData: DirectoryItem[] = [
     url: "https://openai.com",
   },
   {
+    slug: "claude-sonnet-4",
     name: "Claude Sonnet 4.6",
     creator: "Anthropic",
     license: "Propietario",
@@ -30,6 +32,7 @@ export const modelsData: DirectoryItem[] = [
     url: "https://anthropic.com",
   },
   {
+    slug: "gemini-2-5-pro",
     name: "Gemini 2.5 Pro",
     creator: "Google DeepMind",
     license: "Propietario",
@@ -44,6 +47,7 @@ export const modelsData: DirectoryItem[] = [
     url: "https://deepmind.google",
   },
   {
+    slug: "llama-4-maverick",
     name: "Llama 4 Maverick",
     creator: "Meta",
     license: "Open Source",
@@ -58,6 +62,7 @@ export const modelsData: DirectoryItem[] = [
     url: "https://llama.meta.com",
   },
   {
+    slug: "mistral-large-2",
     name: "Mistral Large 2",
     creator: "Mistral AI",
     license: "Open Source",
@@ -72,6 +77,7 @@ export const modelsData: DirectoryItem[] = [
     url: "https://mistral.ai",
   },
   {
+    slug: "deepseek-v3",
     name: "DeepSeek-V3",
     creator: "DeepSeek",
     license: "Open Source",

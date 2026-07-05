@@ -2,6 +2,7 @@ import type { DirectoryItem } from "@/lib/types";
 
 export const skillsData: DirectoryItem[] = [
   {
+    slug: "web-search",
     name: "web_search",
     creator: "Composio",
     license: "Open Source",
@@ -15,6 +16,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Esencial. Múltiples implementaciones. Elegir la que mejor se ajuste al rate limit.",
   },
   {
+    slug: "code-execution",
     name: "code_execution",
     creator: "OpenAI/Community",
     license: "Open Source",
@@ -28,6 +30,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Crítico para agentes analíticos. Sandbox obligatorio por seguridad.",
   },
   {
+    slug: "file-operations",
     name: "file_operations",
     creator: "Anthropic",
     license: "Open Source",
@@ -41,6 +44,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Básico pero indispensable. Cada agente lo necesita de alguna forma.",
   },
   {
+    slug: "email-send",
     name: "email_send",
     creator: "Composio",
     license: "Freemium",
@@ -54,6 +58,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Común en producción. Resend popular en stacks modernos.",
   },
   {
+    slug: "database-query",
     name: "database_query",
     creator: "Community",
     license: "Open Source",
@@ -67,6 +72,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Necesario con precaución. Prepared statements obligatorios para prevenir SQL injection.",
   },
   {
+    slug: "api-call",
     name: "api_call",
     creator: "Community",
     license: "Open Source",
@@ -80,6 +86,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Universal. Herramienta base para cualquier integración.",
   },
   {
+    slug: "image-generation",
     name: "image_generation",
     creator: "Various",
     license: "Propietario",
@@ -93,6 +100,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Popular pero costoso. DALL-E líder por integración. Stable Diffusion para self-hosted.",
   },
   {
+    slug: "document-extraction",
     name: "document_extraction",
     creator: "Community",
     license: "Open Source",
@@ -106,6 +114,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Clave para enterprise. GPT-4V mejoró drásticamente la precisión de OCR.",
   },
   {
+    slug: "calendar-manage",
     name: "calendar_manage",
     creator: "Composio",
     license: "Freemium",
@@ -119,6 +128,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Útil para asistentes personales. Requiere permisos OAuth amplios.",
   },
   {
+    slug: "notification-push",
     name: "notification_push",
     creator: "Community",
     license: "Open Source",
@@ -132,6 +142,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Estándar en microservicios. Bull/Redis popular para colas confiables.",
   },
   {
+    slug: "data-validation",
     name: "data_validation",
     creator: "Community",
     license: "Open Source",
@@ -145,6 +156,7 @@ export const skillsData: DirectoryItem[] = [
     adoptionStatus: "Fundamental. Zod es el estándar en TypeScript. Siempre usar en boundaries.",
   },
   {
+    slug: "vector-search",
     name: "vector_search",
     creator: "Community",
     license: "Open Source",

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Brain, Cpu, Network, Wrench } from "lucide-react";
 
@@ -9,7 +10,8 @@ const categories = [
     description: "LLMs, Multimodales y VLM",
     icon: Brain,
     color: "models",
-    count: 12,
+    count: 6,
+    href: "/models",
   },
   {
     title: "Frameworks de Agentes",
@@ -17,20 +19,23 @@ const categories = [
     icon: Cpu,
     color: "agents",
     count: 8,
+    href: "/agents",
   },
   {
     title: "Servidores MCP",
     description: "Model Context Protocol",
     icon: Network,
     color: "mcp",
-    count: 15,
+    count: 10,
+    href: "/mcp",
   },
   {
     title: "Skills / Funciones",
     description: "Herramientas ejecutables",
     icon: Wrench,
     color: "skills",
-    count: 24,
+    count: 12,
+    href: "/skills",
   },
 ];
 
@@ -73,7 +78,9 @@ export function HeroSection() {
               ease: "easeOut",
             }}
           >
-            <CategoryCard {...category} />
+            <Link href={category.href}>
+              <CategoryCard {...category} />
+            </Link>
           </motion.div>
         ))}
       </div>
@@ -93,6 +100,7 @@ function CategoryCard({
   icon: React.ElementType;
   color: string;
   count: number;
+  href: string;
 }) {
   const colorMap: Record<string, string> = {
     models: "text-models bg-models-dim border-models/20",
