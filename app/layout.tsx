@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Header } from "@/components/ui/Header";
 
 export const metadata: Metadata = {
   title: {
@@ -121,6 +122,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body className="min-h-screen bg-background font-sans antialiased">
+        <Header />
         {children}
       </body>
     </html>
