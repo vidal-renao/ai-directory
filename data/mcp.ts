@@ -151,4 +151,19 @@ export const mcpData: DirectoryItem[] = [
     adoptionStatus: "Fundamental para agentes autónomos. Implementación de referencia.",
     url: "https://github.com/modelcontextprotocol/servers",
   },
+  {
+    slug: "agent-qa",
+    name: "Agent QA",
+    creator: "Vostride",
+    license: "Código disponible",
+    description: "Servidor MCP y CLI para ejecutar pruebas web y móviles en lenguaje natural, con memoria de ejecución y adaptación a cambios de interfaz.",
+    metrics: [
+      { label: "Interfaz", value: "MCP / CLI" },
+      { label: "Ejecución", value: "stdio" },
+      { label: "Pruebas", value: "Web / móvil" },
+    ],
+    useCase: "Equipos que automatizan pruebas de regresión de aplicaciones desde agentes o pipelines de desarrollo.",
+    adoptionStatus: "Proyecto en desarrollo público; esta ficha no afirma adopción en producción.",
+    url: "https://github.com/vostride/agent-qa",
+  },
 ];

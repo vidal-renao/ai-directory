@@ -9,7 +9,7 @@ export interface DirectoryItem {
   slug: string;
   name: string;
   creator: string;
-  license: "Open Source" | "Propietario" | "Freemium";
+  license: "Open Source" | "Código disponible" | "Propietario" | "Freemium";
   description: string;
   metrics: Metric[];
   useCase: string;
