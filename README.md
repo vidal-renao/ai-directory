@@ -1,8 +1,8 @@
 # AI Directory
 
-> Centro de Comando del Ecosistema de Inteligencia Artificial
+> A reference directory for AI models, agent frameworks, MCP servers and skills.
 
-Directorio avanzado y plataforma de referencia para Modelos Fundacionales, Frameworks de Agentes Autónomos, Servidores MCP y Skills del ecosistema IA actual.
+A portfolio project organizing AI tools by category. Directory entries are a curated snapshot and should be checked against their providers before use.
 
 ## Stack
 
@@ -25,24 +25,26 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Estructura
+## Structure
 
 ```
-app/           ← Pages y layouts (App Router)
-components/    ← UI primitives, secciones, features
-lib/           ← Utilidades, tipos, helpers
-data/          ← Datos del directorio por categoría
+app/           ← Pages and layouts (App Router)
+components/    ← UI primitives, sections, features
+lib/           ← Utilities, types, helpers
+data/          ← Directory data by category
 ```
 
-## Categorías
+## Categories
 
-| Categoría | Color | Descripción |
+| Category | Color | Description |
 |---|---|---|
-| Modelos Fundacionales | Indigo | LLMs, Multimodales, VLM |
-| Frameworks de Agentes | Emerald | LangGraph, AutoGen, CrewAI |
-| Servidores MCP | Cyan | Model Context Protocol |
-| Skills / Funciones | Amber | Herramientas ejecutables |
+| Foundation Models | Indigo | LLMs, Multimodales, VLM |
+| Agent Frameworks | Emerald | LangGraph, AutoGen, CrewAI |
+| MCP Servers | Cyan | Model Context Protocol |
+| Skills / Functions | Amber | Executable tools |
 
 ## License
 
-Propietario — Vidal Reñao
+Proprietary — Vidal Reñao
+
+[Portfolio](https://vidal-pro-portfolio.vercel.app/en) · [LinkedIn](https://www.linkedin.com/in/vidalrenao/)
